@@ -114,14 +114,17 @@
       <input type="text" class="form-control" aria-describedby="button-addon2" id="inputField">
       <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="proccessInput()">Dodaj</button>
     </div>
+    <p style="color: red; font-size: 11px;" id="napaka"></p>
 
     <div id="overview"></div>
     
   </div>
-  <a onclick="" class="sticky-button">Oddaj</a>
+  <a onclick="saveData()" class="sticky-button">Oddaj</a>
 </body>
 
+
 <script>
+    var user = "";
     var vprasanja = [];
     const inputField = document.getElementById("inputField");
     const overview = document.getElementById("overview"); 
@@ -150,17 +153,21 @@
         counter++;
 
       } else {
-        alert("Please enter the input in the correct format: question; answer");
+        document.getElementById("napaka").textContent = "Napaka pri vnosu! Uporabi format: vprašanje; odgovor";
       }
-    
     }
 
     // send data to save
     function saveData(){
       title = document.getElementById("inputTitle").value;
       description = document.getElementById("inputDescription").value;
-      
+      window.api.sendCreateData({user: user, title: title, description: description, questions: vprasanja});
     }
+
+    window.api.onProfileName((username) => {
+      user = username;
+      console.log(user);
+    });
 
 
     document.getElementById('home').addEventListener('click', (e) => {

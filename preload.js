@@ -10,7 +10,6 @@ contextBridge.exposeInMainWorld('api', {
   ipcRenderer.on('profile-name', (event, username) => {
     callback(username);
   }),
-
   sendCreateData: (data) => ipcRenderer.send('create-data', data)
 
 });

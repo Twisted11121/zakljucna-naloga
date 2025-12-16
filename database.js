@@ -43,7 +43,7 @@ function insertUser(db, event, username, password) {
       handleDbError(runErr, event, 'Insert failed');
       return;
     }
-    loadIndexAndSend(username); // Ensure this function is accessible
+    loadIndexAndSend(username); 
   });
 }
 
@@ -73,9 +73,25 @@ function checkPassword(row, password, event) {
   }
 }
 
+function insertContent(db, event, creator, name, description, content) {
+  db.run(
+    'INSERT INTO Content (creator, name, description, content) VALUES (?, ?, ?, ?)',
+    [creator, name, description, content],
+    function (runErr) {
+      if (runErr) {
+        handleDbError(runErr, event, 'Insert content failed');
+        return;
+      }
+      event.reply('create-complete', { success: true });
+    }
+  );
+}
+
 module.exports = {
   initializeDatabase,
   handleDbError,
   insertUser,
   getUser,
+  insertContent,
+  insertUser
 };

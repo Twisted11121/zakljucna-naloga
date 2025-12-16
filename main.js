@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron')
-const { initializeDatabase, getUser } = require('./database');
+const { initializeDatabase, getUser, insertContent } = require('./database');
 
 
 
@@ -49,7 +49,7 @@ console.error('Failed to load', file, err);
 //Load index
 ipcMain.on('home-clicked', () => safeLoad('index.html'));
 
-// Load index and send username
+// Load profile page and send username
 ipcMain.on('profile-clicked', () => {
   safeLoad('profile.html').then(() => {
     // send username
@@ -57,10 +57,13 @@ ipcMain.on('profile-clicked', () => {
   });
 });
 
-// Load create page
-ipcMain.on('create-clicked', () => safeLoad('create.html'));
+ipcMain.on('create-clicked', () => {
+  safeLoad('create.html').then(() => {
+    mainWindow.webContents.send('profile-name', currentUser);
+  });
+});
 
-//Recive create page data
 ipcMain.on("create-data", (event, data) => {
-  // Logic
-})
+  insertContent(db, event, data.user, data.title, data.description, JSON.stringify(data.questions));
+  safeLoad('index.html');
+});
