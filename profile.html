@@ -52,7 +52,7 @@
 
       const contentContainer = document.querySelector('.user-content');
       contentContainer.innerHTML = '<h3>User content</h3>';
-
+      console.log(data);
       if (data && data.length > 0) {
         data.forEach(item => {
           const contentDiv = document.createElement('div');

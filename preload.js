@@ -10,6 +10,13 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.on('profile-data', (event, username, data) => {
       callback(username, data);
     }),
-  sendCreateData: (data) => ipcRenderer.send('create-data', data)
+  sendCreateData: (data) => ipcRenderer.send('create-data', data),
+
+  onProfileName: (callback) =>
+  ipcRenderer.on('profile-name', (event, username) => {
+    callback(username);
+  })
+
+  // Add quiz data request for quizMainPage.html
 
 });
