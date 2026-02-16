@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style/profile.css">
+  <style>
+    /* quiz-specific styles that match the profile look */
+    .quiz-container {
+      margin: 30px;
+      width: calc(100% - 60px);
+      min-height: 60vh;
+      border: 1px solid #9c9c9c;
+      padding: 40px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .question {
+      font-size: 22px;
+      text-align: center;
+      margin-bottom: 30px;
+      max-width: 800px;
+    }
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 60%;
+      min-width: 280px;
+    }
+    .answer-btn {
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background: #f8f8f8;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform .12s, background-color .12s;
+      text-align: center;
+    }
+    .answer-btn:hover { transform: translateY(-3px); background:#eee }
+    .answer-btn.selected { background: #00bfff; color: white; border-color: #00bfff; box-shadow: 0 6px 12px rgba(0,191,255,0.12); }
+    #result { margin-top: 20px; font-weight: 700; }
+    @media (max-width:600px){
+      .answers { width: 100%; grid-template-columns: 1fr; }
+      .quiz-container { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="sidebar">
+    <div id="topNav">
+      <a href="#" id="home"><i class="fa-solid fa-house"></i></a>
+      <a href="#" id="create"><i class="fa-solid fa-plus"></i></a>
+    </div>
+    <div id="bottomNav">
+      <a href="#" id="profile"><i class="fa-solid fa-user"></i></a>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="quiz-container" role="main">
+      <div class="question" id="question">Loading question…</div>
+
+    <div class="answers" id="answers">
+        <button class="answer-btn">Answer 1</button>
+        <button class="answer-btn">Answer 2</button>
+        <button class="answer-btn">Answer 1</button>
+        <button class="answer-btn">Answer 1</button>     
+      </div>
+
+      <div id="result" aria-live="polite"></div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('home').addEventListener('click', e => { e.preventDefault(); window.api.sendNav('home'); });
+    document.getElementById('create').addEventListener('click', e => { e.preventDefault(); window.api.sendNav('create'); });
+    document.getElementById('profile').addEventListener('click', e => { e.preventDefault(); window.api.sendNav('profile'); });
+    
+    // DOM references used by the quiz renderer/handlers
+    const qEl = document.getElementById('question');
+    const answersEl = document.getElementById('answers');
+    const resultEl = document.getElementById('result');
+
+    let currentQuiz = [];
+    let quizLength = 0;
+    let currentQuestionIndex = 0;
+    let questionsAnswered = [];
+    let answers = [];
+    let correctAnswersCount = 0;
+    
+    window.api.onQuizData(quizData => {
+      //console.log('Received quiz data:', quizData);
+      currentQuiz = quizData.content;
+      currentQuiz = JSON.parse(currentQuiz);
+      console.log(currentQuiz);
+
+
+      //[{"question":"1","answer":"1"},{"question":"2","answer":"2"},{"question":"3","answer":"3"},{"question":"4","answer":"4"}]
+        quizLength = currentQuiz.length;
+        currentQuestionIndex = 0;
+        /*answers = [currentQuiz[currentQuestionIndex].answer, currentQuiz[Math.floor(Math.random() * quizLength)].answer,
+        currentQuiz[Math.floor(Math.random() * quizLength)].answer,currentQuiz[Math.floor(Math.random() * quizLength)].answer];*/
+        //answers.sort(() => Math.random() - 0.5); // Shuffle answers
+
+        function getShuffledAnswers(quizData, currentIndex) {
+            const quizLength = quizData.length;
+            const uniqueAnswers = new Set();
+
+            uniqueAnswers.add(quizData[currentIndex].answer);
+
+            let attempts = 0;
+            while (uniqueAnswers.size < 4 && attempts < 50) {
+                const randomIndex = Math.floor(Math.random() * quizLength);
+                uniqueAnswers.add(quizData[randomIndex].answer);
+                attempts++;
+            }
+
+            return Array.from(uniqueAnswers).sort(() => Math.random() - 0.5);
+            }
+
+
+        answers = getShuffledAnswers(currentQuiz, currentQuestionIndex);
+
+        if(!questionsAnswered.includes(currentQuestionIndex)){
+            qEl.textContent = currentQuiz[currentQuestionIndex].question;
+            const answerButtons = answersEl.querySelectorAll('.answer-btn');
+            answerButtons.forEach((btn, idx) => {
+                
+                btn.classList.add('answer-btn');
+                btn.textContent = answers[idx];
+                answersEl.appendChild(btn);
+                
+                btn.onclick = () => {
+                    if(btn.textContent === currentQuiz[currentQuestionIndex].answer){
+                        resultEl.textContent = 'Correct!';
+                        resultEl.style.color = 'green';
+                        correctAnswersCount++;
+                    } else {
+                        resultEl.textContent = 'Wrong!';
+                        resultEl.style.color = 'red';
+                    }
+                    
+                    questionsAnswered.push(currentQuestionIndex);
+                    
+                    setTimeout(() => {
+                        if(questionsAnswered.length < quizLength){
+                            currentQuestionIndex = (currentQuestionIndex + 1) % quizLength;
+                            
+                            while(questionsAnswered.includes(currentQuestionIndex)){
+                                currentQuestionIndex = (currentQuestionIndex + 1) % quizLength;
+                            }
+                            
+                            answers = getShuffledAnswers(currentQuiz, currentQuestionIndex);
+                            
+                            qEl.textContent = currentQuiz[currentQuestionIndex].question;
+                            
+                            answerButtons.forEach((btn, idx) => {
+                                btn.classList.remove('selected');
+                                btn.textContent = answers[idx];
+                            });
+                            resultEl.textContent = '';
+                        } else {
+                            qEl.textContent = 'Quiz zaključen!';
+                            answersEl.innerHTML = '';
+                            resultEl.textContent = `Odgovoril si ${correctAnswersCount} od ${quizLength} vprašanj pravilno.`;
+                        }
+                    }, 1500);
+                };
+            });
+        }
+        
+
+    });
+    
+   
+    
+  </script>
+</body>
+</html>

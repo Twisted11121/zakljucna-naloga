@@ -15,8 +15,14 @@ contextBridge.exposeInMainWorld('api', {
   onProfileName: (callback) =>
   ipcRenderer.on('profile-name', (event, username) => {
     callback(username);
-  })
+  }),
+
+  openContent: (contentId) => ipcRenderer.send('open-content', contentId),
 
   // Add quiz data request for quizMainPage.html
+  onQuizData: (callback) =>
+    ipcRenderer.on('quiz-data', (event, quizData) => {
+      callback(quizData);
+    })
 
 });

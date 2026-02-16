@@ -68,3 +68,17 @@ ipcMain.on("create-data", (event, data) => {
   insertContent(db, event, data.user, data.title, data.description, JSON.stringify(data.questions));
   safeLoad('index.html');
 });
+
+// Handle quiz being clicked on profile page
+ipcMain.on('open-content', (event, contentId) => {
+  console.log('Opening content with ID:', contentId);
+  // load quiz.html and send contentId
+  queryUserContent(db, currentUser, (data) => {
+    const content = data.data.find(item => item.id === contentId);
+    console.log('Found content:', content);
+    safeLoad('quiz.html').then(() => {
+      mainWindow.webContents.send('quiz-data', content);
+    })
+  });
+});
+

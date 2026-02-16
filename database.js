@@ -90,7 +90,7 @@ function insertContent(db, event, creator, name, description, content) {
 
 function queryUserContent(db,user, callback){
   db.all(
-    'SELECT name, description, content FROM Content WHERE creator = ?',
+    'SELECT id, name, description, content FROM Content WHERE creator = ?',
     [user],
     (err, rows) => {
       if (err) {

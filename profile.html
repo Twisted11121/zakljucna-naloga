@@ -56,6 +56,10 @@
       if (data && data.length > 0) {
         data.forEach(item => {
           const contentDiv = document.createElement('div');
+          contentDiv.onclick = () => {
+            window.api.openContent(item.id);
+            console.log('Clicked content with ID:', item.id);
+          };
           contentDiv.classList.add('content-item');
           contentDiv.innerHTML = `
             <h4>${item.name}</h4>
