@@ -23,16 +23,33 @@
         <input type="text" id="searchInput" placeholder="Search...">
         <button id="searchButton">Search</button>
     </div>
-    <div id="showAll">
-        <div class="nerdCard">
-          <a href="" id="title"></a>
-          <p id="description"></p>
-        </div>
+    <div id="showAll" style="margin-top:100px;">
     </div>
   </div>
 </body>
 
 <script>
+
+    const container = document.getElementById('showAll');
+
+    window.api.onSaveComplete((data) =>{
+      console.log(data);
+      if (data.success) {
+        container.innerHTML = '';
+        data.data.forEach(item => {
+          const div = document.createElement('div');
+          div.classList.add('content-item');
+          div.id = `${item.id}`;
+
+          div.onclick = () => {
+            window.api.openContent(item.id);
+          };
+
+          div.innerHTML = `<h3>${item.name}</h3><p>${item.description}</p>`;
+          container.appendChild(div);
+        });
+      }
+    });
 
     document.getElementById('home').addEventListener('click', (e) => {
     e.preventDefault();

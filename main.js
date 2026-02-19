@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, screen } = require('electron')
-const { initializeDatabase, getUser, insertContent, queryUserContent } = require('./database');
+const { initializeDatabase, getUser, insertContent, queryAllContent, queryUserContent} = require('./database');
 
 
 
@@ -32,10 +32,13 @@ ipcMain.on('login-data', (event, data) => {
 // Load index and send success message
 function loadIndexAndSend(username) {
   currentUser = username;
-  mainWindow.loadFile('index.html')
-  mainWindow.webContents.once('did-finish-load', () => {
-    mainWindow.webContents.send('save-complete', { success: true, username })
-  })
+  queryAllContent(db, (rows) => {
+    const data = rows;
+    mainWindow.loadFile('index.html')
+    mainWindow.webContents.once('did-finish-load', () => {
+      mainWindow.webContents.send('save-complete', { success: true, username, data })
+    })
+  });
 }
 
 // Handle page navigation from index page
@@ -47,7 +50,8 @@ console.error('Failed to load', file, err);
 }
 
 //Load index
-ipcMain.on('home-clicked', () => safeLoad('index.html'));
+ipcMain.on('home-clicked', () => 
+  loadIndexAndSend(currentUser));
 
 // Load profile page and send username
 ipcMain.on('profile-clicked', () => {

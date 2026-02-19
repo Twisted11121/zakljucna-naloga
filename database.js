@@ -87,6 +87,17 @@ function insertContent(db, event, creator, name, description, content) {
   );
 }
 
+function queryAllContent(db, callback) {
+  db.all("SELECT id, name, description, creator FROM Content", (err, rows) => {
+    if (err) {
+      console.error('Query content failed', err);
+      callback(null);
+      return;
+    }
+    callback(rows);
+  });
+}
+
 
 function queryUserContent(db,user, callback){
   db.all(
@@ -109,5 +120,6 @@ module.exports = {
   getUser,
   insertContent,
   insertUser,
-  queryUserContent
+  queryUserContent,
+  queryAllContent
 };
