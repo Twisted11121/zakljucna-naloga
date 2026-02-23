@@ -1,11 +1,51 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron')
+const { app, BrowserWindow, ipcMain, screen, dialog } = require('electron')
 const { initializeDatabase, getUser, insertContent, queryAllContent, queryUserContent} = require('./database');
+const { importQuizFromFile } = require('./parseImport');
 
 
 
 let mainWindow;
 let currentUser = null;
 const db = initializeDatabase();
+
+// Handle file import
+ipcMain.on('import-file', (event, data) => {
+  const result = importQuizFromFile(db, data.user, data.filePath);
+  
+  if (result.error) {
+    event.reply('import-complete', { success: false, error: result.error });
+    return;
+  }
+  
+  insertContent(db, event, data.user, result.name, result.description, JSON.stringify(result.questions));
+  
+  loadIndexAndSend(currentUser);
+});
+
+// Handle open import dialog
+ipcMain.on('open-import-dialog', (event) => {
+  dialog.showOpenDialog(mainWindow, {
+    properties: ['openFile'],
+    filters: [{ name: 'Text Files', extensions: ['txt'] }]
+  }).then(result => {
+    if (!result.canceled && result.filePaths.length > 0) {
+      const filePath = result.filePaths[0];
+      // Import the file
+      const importResult = importQuizFromFile(db, currentUser, filePath);
+      
+      if (importResult.error) {
+        event.reply('import-complete', { success: false, error: importResult.error });
+        return;
+      }
+      
+      // Save to database
+      insertContent(db, event, currentUser, importResult.name, importResult.description, JSON.stringify(importResult.questions));
+      
+      // Go back to home page
+      loadIndexAndSend(currentUser);
+    }
+  });
+});
 
 // Create main window
 app.whenReady().then(() => {

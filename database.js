@@ -87,6 +87,7 @@ function insertContent(db, event, creator, name, description, content) {
   );
 }
 
+
 function queryAllContent(db, callback) {
   db.all("SELECT id, name, description, creator FROM Content", (err, rows) => {
     if (err) {
@@ -113,6 +114,23 @@ function queryUserContent(db,user, callback){
   );
 }
 
+
+function searchContent(db, query, callback) {
+  const searchQuery = `%${query}%`;
+  db.all(
+    'SELECT id, name, description, creator FROM Content WHERE name LIKE ? OR description LIKE ?',
+    [searchQuery, searchQuery],
+    (err, rows) => {
+      if (err) {
+        console.error('Error searching content', err);
+        callback(null);
+        return;
+      }
+      callback(rows);
+    }
+  );
+}
+
 module.exports = {
   initializeDatabase,
   handleDbError,
@@ -121,5 +139,6 @@ module.exports = {
   insertContent,
   insertUser,
   queryUserContent,
-  queryAllContent
+  queryAllContent,
+  searchContent
 };

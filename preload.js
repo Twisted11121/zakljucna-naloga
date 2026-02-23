@@ -23,6 +23,14 @@ contextBridge.exposeInMainWorld('api', {
   onQuizData: (callback) =>
     ipcRenderer.on('quiz-data', (event, quizData) => {
       callback(quizData);
-    })
+    }),
+
+  // Import functionality
+  sendImportFile: (data) => ipcRenderer.send('import-file', data),
+  onImportComplete: (callback) =>
+    ipcRenderer.on('import-complete', (event, result) => {
+      callback(result);
+    }),
+  openImportDialog: () => ipcRenderer.send('open-import-dialog')
 
 });

@@ -170,8 +170,16 @@
                             qEl.textContent = 'Quiz zaključen!';
                             answersEl.innerHTML = '';
                             resultEl.textContent = `Odgovoril si ${correctAnswersCount} od ${quizLength} vprašanj pravilno.`;
+                            const home_btn = document.createElement('button');
+                            home_btn.textContent = 'Domov';
+                            home_btn.classList.add('answer-btn');
+                            answersEl.style.gridTemplateColumns = "1fr";
+                            home_btn.onclick = () => {
+                                window.api.sendNav('home');
+                            };
+                            answersEl.appendChild(home_btn);
                         }
-                    }, 1500);
+                    }, 750);
                 };
             });
         }
