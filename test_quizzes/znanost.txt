@@ -1,0 +1,9 @@
+Znanstveni Kviz
+Preverite svoje znanje znanosti
+[
+  {"question": "Kateri planet je najbližje Soncu?", "answer": "Merkur"},
+  {"question": "Kakšno je kemijsko simbol za vodo?", "answer": "H2O"},
+  {"question": "Kdo je odkril teorijo relativnosti?", "answer": "Albert Einstein"},
+  {"question": "Kateri element ima kemijski simbol Au?", "answer": "Zlato"},
+  {"question": "Koliko planetov je v našem sončnem sistemu?", "answer": "8"}
+]

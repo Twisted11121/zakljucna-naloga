@@ -1,0 +1,9 @@
+Zgodovinski Kvizz
+Preverite svoje znanje zgodovine
+[
+  {"question": "Kdaj se je začela 2. svetovna vojna?", "answer": "1939"},
+  {"question": "Kdo je bil prvi predsednik ZDA?", "answer": "George Washington"},
+  {"question": "Kdaj je Slovenija razglasila neodvisnost?", "answer": "1991"},
+  {"question": "Kako se je imenovalo prvo letalo, ki je poletelo?", "answer": "Flyer"},
+  {"question": "Kdaj je padel Berlinski zid?", "answer": "1989"}
+]

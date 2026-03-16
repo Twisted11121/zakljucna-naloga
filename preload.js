@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-// Login preload script
+// Preload script for Electron
 contextBridge.exposeInMainWorld('api', {
   sendLoginData: (data) => ipcRenderer.send('login-data', data),
   onSaveComplete: (callback) => ipcRenderer.on('save-complete', (event, result) => callback(result)),
@@ -31,6 +31,13 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.on('import-complete', (event, result) => {
       callback(result);
     }),
-  openImportDialog: () => ipcRenderer.send('open-import-dialog')
+  openImportDialog: () => ipcRenderer.send('open-import-dialog'),
+
+  searchContent: (query) => ipcRenderer.send('search-query', query),
+  
+  onSearchResults: (callback) =>
+    ipcRenderer.on('search-results', (event, data) => {
+      callback(data);
+    }),
 
 });

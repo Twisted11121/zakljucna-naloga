@@ -7,7 +7,7 @@ const { insertContent, queryAllContent, queryUserContent } = require('./database
 // File format:
 // 1st line: quiz name
 // 2nd line: description
-// 3rd line and onwards: questions in JSON format like [{"question":"answer"},{"question2":"answer2"}]
+// 3rd line and onwards: questions in JSON format like [{"question","answer"},{"question2","answer2"}]
 
 // Function to read and parse the import file
 function parseImportFile(filePath) {

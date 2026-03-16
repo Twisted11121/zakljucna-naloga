@@ -1,5 +1,5 @@
 const { app, BrowserWindow, ipcMain, screen, dialog } = require('electron')
-const { initializeDatabase, getUser, insertContent, queryAllContent, queryUserContent} = require('./database');
+const { initializeDatabase, getUser, insertContent, queryAllContent, queryUserContent, searchContent} = require('./database');
 const { importQuizFromFile } = require('./parseImport');
 
 
@@ -51,8 +51,8 @@ ipcMain.on('open-import-dialog', (event) => {
 app.whenReady().then(() => {
   mainWindow = new BrowserWindow({
     webPreferences: {
-      width: 800,
-      height: 600,
+      width: 1200,
+      height: 750,
       nodeIntegration: false,
       contextIsolation: true,
       preload: __dirname + '/preload.js'
@@ -69,7 +69,7 @@ ipcMain.on('login-data', (event, data) => {
   loadIndexAndSend(data.username)
 });
 
-// Load index and send success message
+// Load index and send username and content data
 function loadIndexAndSend(username) {
   currentUser = username;
   queryAllContent(db, (rows) => {
@@ -126,3 +126,9 @@ ipcMain.on('open-content', (event, contentId) => {
   });
 });
 
+// Search
+ipcMain.on('search-query', (event, query) => {
+  searchContent(db, query, (data) => {
+    mainWindow.webContents.send('search-results', data);
+  });
+});
