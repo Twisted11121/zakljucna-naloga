@@ -1,8 +1,0 @@
-Testni Kviz
-To je testni kviz za preverjanje uvoza
-[
-  {"question": "Kaj je glavno mesto Slovenije?", "answer": "Ljubljana"},
-  {"question": "Koliko je 2 + 2?", "answer": "4"},
-  {"question": "Katera barva je na sredini slovenske zastave?", "answer": "Modra"},
-  {"question": "Kaj je največje jezero v Sloveniji?", "answer": "Cerkniško jezero"}
-]
