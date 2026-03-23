@@ -1,9 +1,0 @@
-Kulturni Kviz
-Preverite svoje znanje kulture in umetnosti
-[
-  {"question": "Kdo je naslikal Mono Lizo?", "answer": "Leonardo da Vinci"},
-  {"question": "Katero mesto je Evropska prestolnica kulture 2025?", "answer": "Nova Gorica"},
-  {"question": "Kdo je napisal Romeo in Julija?", "answer": "William Shakespeare"},
-  {"question": "Kateri slovenski pesnik je napisal Krst pri Savici?", "answer": "France Prešeren"},
-  {"question": "V katerem mestu se nahaja Louvre?", "answer": "Pariz"}
-]

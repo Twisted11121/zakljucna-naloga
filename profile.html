@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sidebar Layout</title>
+  <title>Profile</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="style/profile.css">
 </head>
@@ -20,15 +20,13 @@
 
   <div class="main">
   <div class="profile-header">
-    <div class="pfp"></div>
     <div class="info">
       <h2 id="username"></h2>
-      <p id="userBio">Bio</p>
     </div>
   </div>
 
   <div class="user-content">
-    <h3>User-made content</h3>
+    <h3>Tvoji Kvizi</h3>
   </div>
 </div>
 
@@ -51,7 +49,7 @@
         username || "Failed to load username";
 
       const contentContainer = document.querySelector('.user-content');
-      contentContainer.innerHTML = '<h3>User content</h3>';
+      contentContainer.innerHTML = '<h3>Tvoji Kvizi</h3>';
       console.log(data);
       if (data && data.length > 0) {
         data.forEach(item => {

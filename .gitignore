@@ -4,6 +4,7 @@ node_modules/
 # Local database files
 *.db
 app.db
+*.md
 
 # Environment variables
 .env
@@ -16,3 +17,5 @@ logs/
 # Operating System generated files
 .DS_Store
 Thumbs.db
+
+slike-dokumentacija/

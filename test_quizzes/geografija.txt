@@ -1,9 +1,0 @@
-Geografski Kviz
-Preizkusite svoje znanje geografije
-[
-  {"question": "Kateri je najdaljši reka na svetu?", "answer": "Nil"},
-  {"question": "Na kateri celini se nahabela Sahara?", "answer": "Afrika"},
-  {"question": "Katera je najvišja gora na svetu?", "answer": "Mount Everest"},
-  {"question": "Katero je največje morje na svetu?", "answer": "Sredozemsko morje"},
-  {"question": "Koliko celin je na svetu?", "answer": "7"}
-]

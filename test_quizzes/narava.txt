@@ -1,9 +1,0 @@
-Naravoslovni Kviz
-Preverite svoje znanje o naravi
-[
-  {"question": "Katera žival je najhitrejša na kopnem?", "answer": "Gepard"},
-  {"question": "Katero drevo je najvišje na svetu?", "answer": "Sekvoja"},
-  {"question": "Katera žival je simbol Slovenije?", "answer": "Kozorog"},
-  {"question": "Koliko kosti ima človeško telo?", "answer": "206"},
-  {"question": "Katera je največja žival na svetu?", "answer": "Modri kit"}
-]

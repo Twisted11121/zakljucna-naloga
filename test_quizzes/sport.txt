@@ -1,9 +1,0 @@
-Športni Kviz
-Preverite svoje znanje športa
-[
-  {"question": "Koliko igralcev je v ekipi v nogometu?", "answer": "11"},
-  {"question": "Kje so bile zimske olimpijske igre leta 2014?", "answer": "Soči"},
-  {"question": "Kdo je najboljši slovenski smučarski skakalec?", "answer": "Peter Prevc"},
-  {"question": "Katera barva je žoga v tenisu?", "answer": "Rumena"},
-  {"question": "Koliko točk je vredno zadetek v košarki?", "answer": "2"}
-]

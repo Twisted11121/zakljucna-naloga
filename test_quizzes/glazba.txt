@@ -1,9 +1,0 @@
-Glasbeni Kviz
-Preverite svoje znanje glasbe
-[
-  {"question": "Kdo je skladal Deveto simfonijo?", "answer": "Beethoven"},
-  {"question": "Koliko strun ima kitara?", "answer": "6"},
-  {"question": "Kateri slovenski glasbenik je znan po pesmi Slovenija", "answer": "Siddhartha"},
-  {"question": "Kako se imenuje najvišji moški pevski glas?", "answer": "Tenor"},
-  {"question": "V katerem mestu se nahaja Opera v Sloveniji?", "answer": "Ljubljana"}
-]
